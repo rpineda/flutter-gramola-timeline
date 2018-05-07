@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+   fhconfig.plist
+   Runner
+
+   Created by Carlos Vicens on 19/04/2018.
+   Copyright (c) 2018 The Chromium Authors. All rights reserved.
+-->
+<plist version="1.0">
+    <dict>
+        <key>host</key>
+        <string>https://cvicensa.us.demos.redhatmobile.com</string>
+        <key>appid</key>
+        <string>rzu6bethjoj3knncg7cbzbsa</string>
+        <key>projectid</key>
+        <string>rzu6bes76hhz7dubkwqb5wuw</string>
+        <key>appkey</key>
+        <string>40c58baa5af9793f6783869136d8f235dd61db7a</string>
+        <key>connectiontag</key>
+        <string>0.0.1</string>
+        <key>variantID</key>
+        <string>e4272086-7c64-45da-a623-b8ae6a2aa4b8</string>
+        <key>variantSecret</key>
+        <string>1812d76f-9590-4034-a3eb-e018b8ea1bb5</string>
+    </dict>
+</plist>
