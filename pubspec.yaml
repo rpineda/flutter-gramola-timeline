@@ -1,8 +1,8 @@
 name: gramola_timeline
-description: A new flutter package project.
+description: Gramola timeline component
 version: 0.0.1
-author:
-homepage:
+author: Carlos Vicens <carlos.vicens.alonso@gmail.com>
+homepage: https://github.com/cvicens/flutter-gramola-timeline
 
 dependencies:
   flutter:
