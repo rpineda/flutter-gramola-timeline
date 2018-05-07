@@ -1,3 +1,7 @@
+## 0.0.4
+
+* Logging tests
+
 ## 0.0.3
 
 * Deleting previous results before fetching results

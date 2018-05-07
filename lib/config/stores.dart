@@ -48,27 +48,30 @@ class TimelineStore extends BaseStore {
 
   TimelineStore() {
     triggerOnAction(fetchTimelineEntriesRequestAction, (String _) {
-        _fetching = true;
-        _error = false;
-        _result = null;
-        _timelineEntries = List<TimelineEntry>();
+      print('fetchTimelineEntriesRequestAction $_');
+      _fetching = true;
+      _error = false;
+      _result = null;
+      _timelineEntries = List<TimelineEntry>();
     });
 
     triggerOnAction(fetchTimelineEntriesSuccessAction, (dynamic result) {
-        _fetching = false;
-        if (result is List) {
-          _result = result;
-          _timelineEntries = List<TimelineEntry>();
-          _result.forEach((element) {
-            _timelineEntries.add(new TimelineEntry(id: element['id'], eventId: element['eventId'], 
-              userId: element['userId'], title: element['title'], 
-              date: element['date'], time: element['time'], 
-              description:  element['description'], image: element['image']));
-          });
-        }
+      print('fetchTimelineEntriesSuccessAction');
+      _fetching = false;
+      if (result is List) {
+        _result = result;
+        _timelineEntries = List<TimelineEntry>();
+        _result.forEach((element) {
+          _timelineEntries.add(new TimelineEntry(id: element['id'], eventId: element['eventId'], 
+            userId: element['userId'], title: element['title'], 
+            date: element['date'], time: element['time'], 
+            description:  element['description'], image: element['image']));
+        });
+      }
     });
 
     triggerOnAction(fetchTimelineEntriesFailureAction, (String errorMessage) {
+      print('fetchTimelineEntriesFailureAction');
       _fetching = false;
       _errorMessage = errorMessage;
     });
