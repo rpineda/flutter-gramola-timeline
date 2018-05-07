@@ -58,11 +58,9 @@ class _EventsComponentState extends State<EventTimelineComponent>
   }
 
   void _fetchTimeline() async {
-    print ('3) timelineStore => ' + timelineStore.currentEventId + ' -> ' + timelineStore.currentUserId);
     assert(timelineStore != null);
     try {
       //setConfiguration(this._configuration);
-      print ('4) timelineStore => ' + this._configuration.eventId + ' -> ' + this._configuration.userId);
       fetchTimelineEntriesRequestAction('');
        Map<String, dynamic> options = {
         "path": "/timeline/" + this._configuration.eventId + "/" + this._configuration.userId,

@@ -1,3 +1,7 @@
+## 0.0.3
+
+* Deleting previous results before fetching results
+
 ## 0.0.2
 
 * Fixing component title

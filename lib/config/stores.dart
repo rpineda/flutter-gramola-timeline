@@ -50,6 +50,8 @@ class TimelineStore extends BaseStore {
     triggerOnAction(fetchTimelineEntriesRequestAction, (String _) {
         _fetching = true;
         _error = false;
+        _result = null;
+        _timelineEntries = List<TimelineEntry>();
     });
 
     triggerOnAction(fetchTimelineEntriesSuccessAction, (dynamic result) {
