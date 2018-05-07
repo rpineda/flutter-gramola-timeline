@@ -93,9 +93,9 @@ class _EventsComponentState extends State<EventTimelineComponent>
     return new Scaffold(
       key: scaffoldKey,
       appBar: new AppBar(
-        title: new Text('List of events'),
+        title: new Text('Timeline'),
         leading: new IconButton(
-            tooltip: 'Previous choice',
+            tooltip: 'Go back',
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
              Navigator.pop(scaffoldKey.currentContext);
