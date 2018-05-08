@@ -1,3 +1,4 @@
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:gramola_timeline/model/timeline_entry.dart';
 import 'package:meta/meta.dart';
@@ -6,16 +7,41 @@ class LinePainter extends CustomPainter {
   LinePainter({
     @required this.color,
     @required this.backgroundColor,
+    this.ending = false
   }) : super();
 
-  /// The color in the background of the circle
+  /// The background color
   final Color backgroundColor;
 
-  /// The foreground color used to indicate progress
+  /// The foreground color
   final Color color;
+
+  /// The color in the background of the circle
+  final bool ending;
 
   @override
   void paint(Canvas canvas, Size size) {
+    if (!ending) {
+      _paint(canvas, size);
+      return;
+    }
+    _paintEnding(canvas, size);
+  }
+
+  void _paintEnding (Canvas canvas, Size size) {
+    Paint linePaint = new Paint()
+      ..shader = new ui.Gradient.linear(new Offset(0.0, 20.0), new Offset(0.0, 0.0), <Color>[backgroundColor, color])
+      ..strokeWidth = 4.0
+      ..strokeCap = StrokeCap.square
+      ..style = PaintingStyle.stroke;
+
+    canvas.drawLine(
+      size.topCenter(new Offset(0.0, 2.0)),
+      size.bottomCenter(new Offset(0.0, -2.0)),
+      linePaint);
+  }
+
+  void _paint (Canvas canvas, Size size) {
     Paint linePaint = new Paint()
       ..color = backgroundColor
       ..strokeWidth = 4.0
@@ -26,7 +52,7 @@ class LinePainter extends CustomPainter {
       size.topCenter(new Offset(0.0, 2.0)),
       size.bottomCenter(new Offset(0.0, -2.0)),
       linePaint);
-    
+
     Paint fillPaint = new Paint()
       ..color = backgroundColor
       ..style = PaintingStyle.fill;
@@ -80,7 +106,7 @@ class TimelineEntryRow extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         new Container(
-          padding: const EdgeInsets.only(bottom: 8.0, top: 4.0),
+          padding: const EdgeInsets.only(bottom: 8.0, top: 8.0),
           child: new Text(
             _entry.title,
             style: new TextStyle(
@@ -101,7 +127,7 @@ class TimelineEntryRow extends StatelessWidget {
 
   Widget _buildCardContent(BuildContext context) {
     return new Container(
-      height: 100.0,
+      height: 80.0,
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 0.0),
       //color: Colors.amber,
       child: new Row(
@@ -110,6 +136,53 @@ class TimelineEntryRow extends StatelessWidget {
           _buildTimeColumn(context),
           _buildLineColumn(context),
           new Expanded(child: _buildTextColumn(context))
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildCardContent(context);
+  }
+}
+
+class TimelineEntryEnding extends StatelessWidget {
+  /// The color in the background of the circle
+  final Color backgroundColor;
+
+  TimelineEntryEnding({this.backgroundColor});
+
+  Widget _buildTimeColumn(BuildContext context) {
+    return new Container(
+      width: 30.0,
+    );
+  }
+
+  Widget _buildLineColumn(BuildContext context) {
+    return new Container(
+      width: 40.0,
+      //color: Colors.lightGreen,
+      child: new CustomPaint(
+        painter: new LinePainter(
+          color: Colors.deepPurpleAccent, 
+          backgroundColor: backgroundColor,
+          ending: true
+        )
+      )
+    );
+  }
+
+  Widget _buildCardContent(BuildContext context) {
+    return new Container(
+      height: 20.0,
+      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 0.0),
+      //color: Colors.amber,
+      child: new Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          _buildTimeColumn(context),
+          _buildLineColumn(context)
         ],
       ),
     );

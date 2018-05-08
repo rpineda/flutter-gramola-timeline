@@ -86,6 +86,57 @@ class _EventsComponentState extends State<EventTimelineComponent>
     scaffoldKey.currentState.showSnackBar(snackbar);
   }
 
+  void _showAddEntryDialog() {
+    final TextEditingController _titleFieldController = new TextEditingController();
+    final TextEditingController _descriptionFieldController = new TextEditingController();
+    Container formSection = new Container(
+      padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+      child:  new Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          new ListTile(
+            leading: const Icon(Icons.title),
+            title: new TextField(
+              controller: _titleFieldController,
+              autocorrect: false,
+              decoration: new InputDecoration(
+                hintText: "Title",
+              ),
+            ),
+          ),
+          new ListTile(
+            leading: const Icon(Icons.description),
+            title: new TextField(
+              controller: _descriptionFieldController,
+              autocorrect: false,
+              decoration: new InputDecoration(
+                hintText: "Description",
+              ),
+            ),
+          )
+        ],
+      )    
+    );
+
+    showModalBottomSheet<void>(context: context, builder: (BuildContext context) {
+      return new Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            formSection,
+            new Container(
+                padding: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 0.0),
+                child: new RaisedButton(
+                    child: new Text('Add'),
+                    color: Theme.of(context).primaryColor,
+                    textColor: Colors.white,
+                    onPressed: null
+                )
+            )
+          ]
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -97,26 +148,31 @@ class _EventsComponentState extends State<EventTimelineComponent>
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
              Navigator.pop(scaffoldKey.currentContext);
-             //Navigator.pushReplacementNamed(scaffoldKey.currentContext, '/');
           },
         ),
         centerTitle: true,
-        backgroundColor: Colors.transparent,
-        toolbarOpacity: 0.5,
       ),
       body: new Column(
         children: <Widget>[
           new Flexible(
             child: new Container(
-              //color: Theme.GramolaColors.eventPageBackground,
               child: new ListView.builder(
-                //itemExtent: 160.0,
-                itemCount: timelineStore.timelineEntries.length,
-                itemBuilder: (_, index) => new TimelineEntryRow(timelineStore.imagesBaseUrl, timelineStore.timelineEntries[index]),
+                itemCount: timelineStore.timelineEntries.length > 0 ? timelineStore.timelineEntries.length + 1 : 0,
+                itemBuilder: (_, index) {
+                  if (index < timelineStore.timelineEntries.length) {
+                    return new TimelineEntryRow(timelineStore.imagesBaseUrl, timelineStore.timelineEntries[index]);
+                  }
+                  return new TimelineEntryEnding(backgroundColor: Theme.of(context).canvasColor);
+                } 
               ),
             ),
           )
         ]
+      ),
+      floatingActionButton: new FloatingActionButton(
+        tooltip: 'Add', // used by assistive technologies
+        child: new Icon(Icons.add),
+        onPressed: _showAddEntryDialog
       )
     );
   }
