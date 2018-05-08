@@ -160,9 +160,16 @@ class _EventsComponentState extends State<EventTimelineComponent>
                 itemCount: timelineStore.timelineEntries.length > 0 ? timelineStore.timelineEntries.length + 1 : 0,
                 itemBuilder: (_, index) {
                   if (index < timelineStore.timelineEntries.length) {
-                    return new TimelineEntryRow(timelineStore.imagesBaseUrl, timelineStore.timelineEntries[index]);
+                    return new TimelineEntryRow(
+                      lineColor: Theme.of(context).accentColor,
+                      backgroundColor: Theme.of(context).canvasColor,
+                      imagesBaseUrl: timelineStore.imagesBaseUrl, 
+                      entry: timelineStore.timelineEntries[index]);
                   }
-                  return new TimelineEntryEnding(backgroundColor: Theme.of(context).canvasColor);
+                  return new TimelineEntryEnding(
+                    color: Theme.of(context).accentColor,
+                    backgroundColor: Theme.of(context).canvasColor
+                  );
                 } 
               ),
             ),

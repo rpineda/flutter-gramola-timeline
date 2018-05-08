@@ -5,7 +5,7 @@ import 'package:meta/meta.dart';
 
 class LinePainter extends CustomPainter {
   LinePainter({
-    @required this.color,
+    @required this.lineColor,
     @required this.backgroundColor,
     this.ending = false
   }) : super();
@@ -13,10 +13,10 @@ class LinePainter extends CustomPainter {
   /// The background color
   final Color backgroundColor;
 
-  /// The foreground color
-  final Color color;
+  /// The line color
+  final Color lineColor;
 
-  /// The color in the background of the circle
+  /// Is this line painter for an ending row?
   final bool ending;
 
   @override
@@ -30,7 +30,7 @@ class LinePainter extends CustomPainter {
 
   void _paintEnding (Canvas canvas, Size size) {
     Paint linePaint = new Paint()
-      ..shader = new ui.Gradient.linear(new Offset(0.0, 20.0), new Offset(0.0, 0.0), <Color>[backgroundColor, color])
+      ..shader = new ui.Gradient.linear(new Offset(0.0, 20.0), new Offset(0.0, 0.0), <Color>[backgroundColor, lineColor])
       ..strokeWidth = 4.0
       ..strokeCap = StrokeCap.square
       ..style = PaintingStyle.stroke;
@@ -43,7 +43,7 @@ class LinePainter extends CustomPainter {
 
   void _paint (Canvas canvas, Size size) {
     Paint linePaint = new Paint()
-      ..color = backgroundColor
+      ..color = lineColor
       ..strokeWidth = 4.0
       ..strokeCap = StrokeCap.square
       ..style = PaintingStyle.stroke;
@@ -54,7 +54,7 @@ class LinePainter extends CustomPainter {
       linePaint);
 
     Paint fillPaint = new Paint()
-      ..color = backgroundColor
+      ..color = lineColor
       ..style = PaintingStyle.fill;
     
     canvas.drawCircle(size.center(Offset.zero), 8.0, fillPaint);
@@ -62,16 +62,22 @@ class LinePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(LinePainter other) {
-    return color != other.color ||
+    return lineColor != other.lineColor ||
       backgroundColor != other.backgroundColor;
   }
 }
 
 class TimelineEntryRow extends StatelessWidget {
-  final String _imagesBaseUrl;
-  final TimelineEntry _entry;
+  final Color lineColor;
+  final Color backgroundColor;
+  final String imagesBaseUrl;
+  final TimelineEntry entry;
 
-  TimelineEntryRow(this._imagesBaseUrl, this._entry);
+  TimelineEntryRow({
+    @required this.lineColor, 
+    @required this.backgroundColor, 
+    @required this.imagesBaseUrl, 
+    @required this.entry});
 
   Widget _buildTimeColumn(BuildContext context) {
     return new Container(
@@ -79,7 +85,7 @@ class TimelineEntryRow extends StatelessWidget {
       //color: Colors.lightBlue,
       child: new Center(
         child: new Text(
-          _entry.time,
+          entry.time,
           style: new TextStyle(
             fontSize: 9.0,
             fontWeight: FontWeight.normal,
@@ -95,8 +101,8 @@ class TimelineEntryRow extends StatelessWidget {
       //color: Colors.lightGreen,
       child: new CustomPaint(
         painter: new LinePainter(
-          color: Colors.deepPurple, 
-          backgroundColor:  Colors.deepPurpleAccent)
+          lineColor: lineColor, 
+          backgroundColor: lineColor)
       )
     );
   }
@@ -108,7 +114,7 @@ class TimelineEntryRow extends StatelessWidget {
         new Container(
           padding: const EdgeInsets.only(bottom: 8.0, top: 8.0),
           child: new Text(
-            _entry.title,
+            entry.title,
             style: new TextStyle(
               //color: Colors.black,
               fontWeight: FontWeight.bold,
@@ -116,7 +122,7 @@ class TimelineEntryRow extends StatelessWidget {
           ),
         ),
         new Text(
-          _entry.description,
+          entry.description,
           style: new TextStyle(
             color: Colors.grey[500],
           ),
@@ -148,10 +154,12 @@ class TimelineEntryRow extends StatelessWidget {
 }
 
 class TimelineEntryEnding extends StatelessWidget {
-  /// The color in the background of the circle
+  final Color color;
   final Color backgroundColor;
 
-  TimelineEntryEnding({this.backgroundColor});
+  TimelineEntryEnding({
+    @required this.color, 
+    @required this.backgroundColor});
 
   Widget _buildTimeColumn(BuildContext context) {
     return new Container(
@@ -165,7 +173,7 @@ class TimelineEntryEnding extends StatelessWidget {
       //color: Colors.lightGreen,
       child: new CustomPaint(
         painter: new LinePainter(
-          color: Colors.deepPurpleAccent, 
+          lineColor: color, 
           backgroundColor: backgroundColor,
           ending: true
         )

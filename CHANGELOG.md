@@ -1,3 +1,7 @@
+## 0.0.6
+
+* Refactoring and cleaning
+
 ## 0.0.5
 
 * Ending gradient added
