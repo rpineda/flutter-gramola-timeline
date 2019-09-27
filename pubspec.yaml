@@ -4,6 +4,9 @@ version: 0.0.6
 author: Carlos Vicens <carlos.vicens.alonso@gmail.com>
 homepage: https://github.com/cvicens/flutter-gramola-timeline
 
+environment:
+  sdk: ">=2.2.2 <3.0.0"
+
 dependencies:
   flutter:
     sdk: flutter
